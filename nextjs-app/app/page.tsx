@@ -129,7 +129,7 @@ export default async function HomePage() {
             <div className="text-center p-8 bg-yellow-50 border border-yellow-200 mb-8">
               <p className="text-yellow-800">
                 No featured research found. Make sure you have research items
-                marked as "featured" in Sanity.
+                marked as &quot;featured&quot; in Sanity.
               </p>
             </div>
           )}
