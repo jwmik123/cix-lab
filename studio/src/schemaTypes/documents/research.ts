@@ -99,14 +99,20 @@ export const research = defineType({
       of: [{type: 'string'}],
       options: {
         list: [
-          {title: 'Cultural Economics', value: 'cultural-economics'},
-          {title: 'Digital Media', value: 'digital-media'},
-          {title: 'Creative Industries', value: 'creative-industries'},
-          {title: 'Innovation', value: 'innovation'},
-          {title: 'Entrepreneurship', value: 'entrepreneurship'},
-          {title: 'Business Models', value: 'business-models'},
-          {title: 'Technology', value: 'technology'},
-          {title: 'Policy', value: 'policy'},
+          {
+            title: 'Creative and Cultural Entrepreneurship',
+            value: 'creative-and-cultural-entrepreneurship',
+          },
+          {
+            title: 'Innovation in Arts, Entertainment and Science',
+            value: 'innovation-in-arts-entertainment-and-science',
+          },
+          {title: 'Fashion and Luxury Goods', value: 'fashion-and-luxury-goods'},
+          {
+            title: 'Creative Technologies & Generative AI',
+            value: 'creative-technologies-generative-ai',
+          },
+          {title: 'Cultural Ecosystem Services', value: 'cultural-ecosystem-services'},
         ],
       },
       description: 'Research categories for filtering',

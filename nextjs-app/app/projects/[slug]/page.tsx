@@ -156,7 +156,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 {publicationDate && (
                   <div className="mb-6">
                     <p className="text-sm text-gray-600 font-medium">
-                      Project Date: {publicationDate}
+                      Start Date: {publicationYear}
                     </p>
                   </div>
                 )}
@@ -184,7 +184,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 {project.authors && project.authors.length > 0 && (
                   <div className="border-t border-gray-200 pt-8">
                     <h3 className="font-raleway font-semibold text-lg mb-6 text-gray-900">
-                      About the Team
+                      The team
                     </h3>
                     <div className="space-y-6">
                       {project.authors.map((author: any, index: number) => {
