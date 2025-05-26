@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { sanityFetch } from "@/sanity/lib/live";
 import RedNavigationBar from "@/components/RedNavigationBar";
+import HeroSection from "@/components/HeroSection";
 
 // Query for all publications with optional category filtering
 const publicationsQuery = `
@@ -49,22 +50,12 @@ export default async function PublicationsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-[50vh]">
-        <div className="absolute inset-0">
-          <Image
-            src="/uva.jpeg"
-            alt="UvA background"
-            fill
-            className="object-cover"
-            style={{
-              objectPosition: "center -200px",
-              filter:
-                "grayscale(100%) brightness(1.2) contrast(0.8) sepia(18%)",
-            }}
-            priority
-          />
-        </div>
-      </section>
+      <HeroSection
+        objectPosition={{
+          mobile: "center 0",
+          desktop: "center -200px",
+        }}
+      />
 
       {/* Red Navigation Bar */}
       <RedNavigationBar currentPage="publications" />

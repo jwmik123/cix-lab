@@ -88,7 +88,7 @@ export default async function ResearchDetailPage({ params }: Props) {
       {/* Main Content */}
       <main className="py-16 lg:py-24">
         <div className="container mx-auto px-4">
-          <div className="mb-16">
+          <div className="mb-16 max-w-7xl mx-auto">
             <h1 className="font-raleway font-bold text-3xl sm:text-4xl md:text-5xl text-gray-900 mb-4 leading-tight">
               {research.title}
             </h1>

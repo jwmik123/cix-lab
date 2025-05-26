@@ -25,7 +25,12 @@ export default function HeroSection() {
       >
         <source src="/header-loop.webm" type="video/webm" />
       </video>
-      <div className="absolute inset-0 bg-black/20"></div>
+      <div
+        className="absolute inset-0"
+        style={{
+          filter: "grayscale(100%) brightness(1) contrast(0.8) sepia(18%)",
+        }}
+      ></div>
 
       <div className="relative container z-10 text-left text-white px-4">
         <div className="">
