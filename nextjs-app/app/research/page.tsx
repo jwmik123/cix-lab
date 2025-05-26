@@ -4,6 +4,8 @@ import Image from "next/image";
 
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlForImage } from "@/sanity/lib/utils";
+import HeroSection from "@/components/HeroSection";
+import RedNavigationBar from "@/components/RedNavigationBar";
 
 // Query for all research with optional category filtering
 const researchQuery = `
@@ -56,44 +58,15 @@ export default async function ResearchPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-[50vh]">
-        <div className="absolute inset-0">
-          <Image
-            src="/uva.jpeg"
-            alt="UvA background"
-            fill
-            className="object-cover"
-            style={{
-              objectPosition: "center -200px",
-              filter:
-                "grayscale(100%) brightness(1.2) contrast(0.8) sepia(18%)",
-            }}
-            priority
-          />
-        </div>
-      </section>
+      <HeroSection
+        objectPosition={{
+          mobile: "center 0",
+          desktop: "center -200px",
+        }}
+      />
 
       {/* Red Navigation Bar */}
-      <section className="bg-red-700">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between py-10">
-            <div className="flex items-center space-x-6 text-white">
-              <Link
-                href="/research"
-                className="hover:text-red-200 transition-colors font-medium"
-              >
-                Research
-              </Link>
-              <Link
-                href="/publications"
-                className="hover:text-red-200 transition-colors font-medium"
-              >
-                Publications
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <RedNavigationBar currentPage="research" />
 
       {/* Research Grid Section */}
       <section className="bg-gray-50">

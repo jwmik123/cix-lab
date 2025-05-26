@@ -137,7 +137,7 @@ export default async function HomePage() {
           <Suspense
             fallback={<div className="text-center">Loading research...</div>}
           >
-            <div className="grid grid-cols-3 gap-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
               {featuredResearch?.map((research: any, index: number) => {
                 // Debug each research item
                 console.log(`Research ${index}:`, research);

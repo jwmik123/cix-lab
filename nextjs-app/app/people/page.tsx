@@ -45,6 +45,17 @@ export default async function PeoplePage() {
     query: peopleQuery,
   });
 
+  // Filter people into regular team members and guests
+  const regularPeople =
+    allPeople?.filter(
+      (person: any) => !person.role?.toLowerCase().includes("guest")
+    ) || [];
+
+  const guests =
+    allPeople?.filter((person: any) =>
+      person.role?.toLowerCase().includes("guest")
+    ) || [];
+
   return (
     <>
       {/* People Grid Section */}
@@ -58,9 +69,9 @@ export default async function PeoplePage() {
               <div className="text-center">Loading team members...</div>
             }
           >
-            {allPeople && allPeople.length > 0 ? (
+            {regularPeople && regularPeople.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                {allPeople.map((person: any) => {
+                {regularPeople.map((person: any) => {
                   const imageUrl = getImageUrl(person.image);
 
                   return (
@@ -88,7 +99,7 @@ export default async function PeoplePage() {
                           </div>
                         )}
                       </div>
-                      <h3 className="font-raleway font-semibold text-lg mb-2 text-gray-900 group-hover:text-red-700 transition-colors">
+                      <h3 className="font-raleway font-semibold text-lg text-gray-900 group-hover:text-red-700 transition-colors">
                         {person.name}
                       </h3>
                       {person.role && (
@@ -101,6 +112,60 @@ export default async function PeoplePage() {
             ) : (
               <div className="text-center py-12">
                 <p className="text-gray-600 text-lg">No team members found.</p>
+              </div>
+            )}
+          </Suspense>
+
+          <h1 className="mt-16 font-raleway font-bold text-4xl sm:text-5xl text-gray-900 mb-12">
+            Guests
+          </h1>
+
+          <Suspense
+            fallback={<div className="text-center">Loading guests...</div>}
+          >
+            {guests && guests.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                {guests.map((person: any) => {
+                  const imageUrl = getImageUrl(person.image);
+
+                  return (
+                    <Link
+                      key={person._id}
+                      href={`/people/${person.slug?.current}`}
+                      className="group block"
+                    >
+                      <div className="aspect-square overflow-hidden rounded-lg mb-4 bg-gray-200">
+                        {imageUrl ? (
+                          <Image
+                            src={imageUrl}
+                            alt={person.name || "Guest"}
+                            width={400}
+                            height={400}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                            <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
+                              <span className="text-2xl font-bold text-red-700">
+                                {person.name ? person.name.charAt(0) : "?"}
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <h3 className="font-raleway font-semibold text-lg text-gray-900 group-hover:text-red-700 transition-colors">
+                        {person.name}
+                      </h3>
+                      {person.role && (
+                        <p className="text-gray-600 text-sm">{person.role}</p>
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-gray-600 text-lg">No guests found.</p>
               </div>
             )}
           </Suspense>

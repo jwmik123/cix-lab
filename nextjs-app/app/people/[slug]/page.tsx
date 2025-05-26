@@ -35,6 +35,27 @@ const personQuery = `
   }
 `;
 
+// Query for research by this person
+const personResearchQuery = `
+  *[_type == "research" && references($personId)] | order(publicationDate desc) {
+    _id,
+    title,
+    slug,
+    thumbnail {
+      asset-> {
+        _id,
+        url
+      },
+      alt,
+      hotspot,
+      crop
+    },
+    summary,
+    publicationDate,
+    categories
+  }
+`;
+
 // Query for static generation
 const personSlugsQuery = `
   *[_type == "person" && defined(slug.current)]{"slug": slug.current}
@@ -56,17 +77,15 @@ export default async function PersonDetailPage({ params }: Props) {
     notFound();
   }
 
+  // Fetch research by this person
+  const { data: personResearch } = await sanityFetch({
+    query: personResearchQuery,
+    params: { personId: person._id },
+  });
+
   const imageUrl = person.image?.asset?.url
     ? urlForImage(person.image)?.width(600).height(600).url()
     : null;
-
-  // Debug logging for image issues
-  console.log("=== People Page Image Debug ===");
-  console.log("Person name:", person.name);
-  console.log("Person image object:", person.image);
-  console.log("Asset URL:", person.image?.asset?.url);
-  console.log("Generated imageUrl:", imageUrl);
-  console.log("==============================");
 
   // Try both approaches like in research page
   const directImageUrl = person.image?.asset?.url;
@@ -74,12 +93,6 @@ export default async function PersonDetailPage({ params }: Props) {
     ? urlForImage(person.image)?.width(320).height(320).url()
     : null;
   const finalImageUrl = directImageUrl || urlForImageResult;
-
-  console.log("=== Alternative Image URLs ===");
-  console.log("Direct image URL:", directImageUrl);
-  console.log("urlForImage result:", urlForImageResult);
-  console.log("Final image URL:", finalImageUrl);
-  console.log("==============================");
 
   return (
     <>
@@ -225,6 +238,88 @@ export default async function PersonDetailPage({ params }: Props) {
                 </Link>
               )}
             </div>
+
+            {/* Research Section */}
+            {personResearch && personResearch.length > 0 && (
+              <div className="mt-16 pt-8 border-t border-gray-200">
+                <h2 className="font-raleway font-bold text-2xl lg:text-3xl text-gray-900 mb-8">
+                  Research by {person.name}
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {personResearch.map((research: any) => {
+                    // Handle image URL similar to other pages
+                    const directImageUrl = research.thumbnail?.asset?.url;
+                    const urlForImageResult = research.thumbnail?.asset
+                      ? urlForImage(research.thumbnail)
+                          ?.width(400)
+                          .height(300)
+                          .url()
+                      : null;
+                    const finalImageUrl = directImageUrl || urlForImageResult;
+
+                    const publicationYear = research.publicationDate
+                      ? new Date(research.publicationDate).getFullYear()
+                      : null;
+
+                    return (
+                      <Link
+                        key={research._id}
+                        href={`/research/${research.slug?.current}`}
+                        className="group bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden border border-gray-200"
+                      >
+                        {/* Research Image */}
+                        <div className="aspect-[4/3] overflow-hidden bg-gray-200">
+                          {finalImageUrl ? (
+                            <Image
+                              src={finalImageUrl}
+                              alt={research.thumbnail?.alt || research.title}
+                              width={400}
+                              height={300}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-red-500 to-purple-600 flex items-center justify-center">
+                              <svg
+                                className="w-16 h-16 text-white opacity-50"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={1}
+                                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Research Content */}
+                        <div className="p-6">
+                          <div className="flex items-center justify-between mb-3">
+                            {publicationYear && (
+                              <span className="text-sm font-medium text-red-600 bg-red-50 px-3 py-1 rounded-full">
+                                {publicationYear}
+                              </span>
+                            )}
+                          </div>
+                          <h3 className="font-raleway font-bold text-lg mb-3 text-gray-900 group-hover:text-red-700 transition-colors leading-tight">
+                            {research.title}
+                          </h3>
+                          {research.summary && (
+                            <p className="text-gray-600 text-sm line-clamp-3 leading-relaxed">
+                              {research.summary}
+                            </p>
+                          )}
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </main>

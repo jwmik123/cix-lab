@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlForImage } from "@/sanity/lib/utils";
+import RedNavigationBar from "@/components/RedNavigationBar";
 
 // Query for all projects with optional category filtering
 const projectsQuery = `
@@ -76,32 +77,7 @@ export default async function ProjectsPage() {
       </section>
 
       {/* Red Navigation Bar */}
-      <section className="bg-red-700">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between py-10">
-            <div className="flex items-center space-x-6 text-white">
-              <Link
-                href="/research"
-                className="hover:text-red-200 transition-colors font-medium"
-              >
-                Research
-              </Link>
-              <Link
-                href="/projects"
-                className="hover:text-red-200 transition-colors font-medium"
-              >
-                Projects
-              </Link>
-              <Link
-                href="/publications"
-                className="hover:text-red-200 transition-colors font-medium"
-              >
-                Publications
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <RedNavigationBar currentPage="projects" />
 
       {/* Projects Grid Section */}
       <section className="bg-gray-50">
