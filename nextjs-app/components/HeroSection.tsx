@@ -6,7 +6,6 @@ import { useMobile } from "@/hooks/useMobile";
 interface HeroSectionProps {
   imageSrc?: string;
   imageAlt?: string;
-  height?: string;
   objectPosition?: {
     mobile: string;
     desktop: string;
@@ -18,7 +17,6 @@ interface HeroSectionProps {
 export default function HeroSection({
   imageSrc = "/uva.jpeg",
   imageAlt = "UvA background",
-  height = "h-[50vh]",
   objectPosition = {
     mobile: "center -200px",
     desktop: "center 0",
@@ -29,8 +27,11 @@ export default function HeroSection({
   const isMobile = useMobile();
 
   return (
-    <section className={`relative ${height}`}>
-      <div className="absolute inset-0">
+    <section
+      className="relative w-full"
+      style={{ height: "50vh", minHeight: "300px" }}
+    >
+      <div className="absolute inset-0 w-full h-full">
         <Image
           src={imageSrc}
           alt={imageAlt}
@@ -43,6 +44,7 @@ export default function HeroSection({
             filter: filter,
           }}
           priority={priority}
+          sizes="100vw"
         />
       </div>
     </section>

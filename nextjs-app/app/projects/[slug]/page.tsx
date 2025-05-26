@@ -203,14 +203,6 @@ export default async function ProjectDetailPage({ params }: Props) {
                         const finalImageUrl =
                           directImageUrl || urlForImageResult;
 
-                        console.log("=== Project Author Debug ===");
-                        console.log("Author name:", author.name);
-                        console.log("Full author object:", author);
-                        console.log("Direct image URL:", directImageUrl);
-                        console.log("urlForImage result:", urlForImageResult);
-                        console.log("Final image URL:", finalImageUrl);
-                        console.log("============================");
-
                         return (
                           <div
                             key={index}

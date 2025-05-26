@@ -35,12 +35,6 @@ export default async function HomePage() {
     query: featuredResearchQuery,
   });
 
-  // Debug the entire response
-  console.log(
-    "Full featuredResearch data:",
-    JSON.stringify(featuredResearch, null, 2)
-  );
-
   return (
     <>
       {/* Hero Section */}
@@ -87,14 +81,6 @@ export default async function HomePage() {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
               {featuredResearch?.map((research: any, index: number) => {
-                // Debug each research item
-                console.log(`Research ${index}:`, research);
-                console.log(`Research ${index} thumbnail:`, research.thumbnail);
-                console.log(
-                  `Research ${index} thumbnail asset:`,
-                  research.thumbnail?.asset
-                );
-
                 const imageUrl = research.thumbnail?.asset?.url || null;
 
                 // Also try urlForImage approach
@@ -104,12 +90,6 @@ export default async function HomePage() {
                       .height(400)
                       .url()
                   : null;
-
-                console.log(`Research ${index} direct URL:`, imageUrl);
-                console.log(
-                  `Research ${index} urlForImage URL:`,
-                  urlForImageResult
-                );
 
                 const publicationYear = research.publicationDate
                   ? new Date(research.publicationDate).getFullYear()

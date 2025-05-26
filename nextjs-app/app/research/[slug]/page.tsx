@@ -164,14 +164,6 @@ export default async function ResearchDetailPage({ params }: Props) {
                     // Use direct URL first, fallback to urlForImage
                     const finalImageUrl = directImageUrl || urlForImageResult;
 
-                    console.log("=== Author Debug ===");
-                    console.log("Author name:", author.name);
-                    console.log("Full author object:", author);
-                    console.log("Direct image URL:", directImageUrl);
-                    console.log("urlForImage result:", urlForImageResult);
-                    console.log("Final image URL:", finalImageUrl);
-                    console.log("==================");
-
                     return (
                       <div key={index} className="flex items-start space-x-4">
                         <Link
