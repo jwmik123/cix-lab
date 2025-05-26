@@ -46,10 +46,39 @@ export default async function PeoplePage() {
   });
 
   // Filter people into regular team members and guests
-  const regularPeople =
+  const regularPeopleUnsorted =
     allPeople?.filter(
       (person: any) => !person.role?.toLowerCase().includes("guest")
     ) || [];
+
+  // Custom sorting: Monika - Wijnberg - Professors - Assistant Professors - Candidates
+  const regularPeople = regularPeopleUnsorted.sort((a: any, b: any) => {
+    const nameA = a.name?.toLowerCase() || "";
+    const nameB = b.name?.toLowerCase() || "";
+    const roleA = a.role?.toLowerCase() || "";
+    const roleB = b.role?.toLowerCase() || "";
+
+    // Helper function to get sort priority
+    const getSortPriority = (name: string, role: string) => {
+      if (name.includes("monika")) return 1;
+      if (name.includes("wijnberg")) return 2;
+      if (role.includes("professor") && !role.includes("assistant")) return 3;
+      if (role.includes("assistant professor")) return 4;
+      if (role.includes("candidate")) return 5;
+      return 6; // Other roles
+    };
+
+    const priorityA = getSortPriority(nameA, roleA);
+    const priorityB = getSortPriority(nameB, roleB);
+
+    // If different priorities, sort by priority
+    if (priorityA !== priorityB) {
+      return priorityA - priorityB;
+    }
+
+    // Same priority, sort alphabetically by name
+    return nameA.localeCompare(nameB);
+  });
 
   const guests =
     allPeople?.filter((person: any) =>

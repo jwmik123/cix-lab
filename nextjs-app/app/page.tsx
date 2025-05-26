@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlForImage } from "@/sanity/lib/utils";
+import HeroSection from "./components/HeroSection";
 
 // Queries for CCI Lab content
 const featuredResearchQuery = `
@@ -43,60 +44,7 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center  overflow-hidden">
-        {/* Video background */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/header-loop.webm" type="video/webm" />
-        </video>
-        <div className="absolute inset-0 bg-black/20"></div>
-
-        <div className="relative container z-10 text-left text-white px-4">
-          <div className="">
-            <p className="font-raleway text-lg mb-4 text-white/80">
-              University of Amsterdam
-            </p>
-            <h1 className="font-raleway font-medium text-5xl sm:text-6xl md:text-7xl  mb-8 leading-tight">
-              Creative and Cultural
-              <br />
-              Industries
-            </h1>
-            <div className="max-w-2xl mb-10">
-              <p className="text-lg sm:text-xl leading-relaxed text-white/90">
-                The CI/X: Lab is an interdisciplinary research lab that welcomes
-                academics, students, and industry professionals to collaborate
-                on research projects and business initiatives that focus on the
-                creative and cultural industries from a business-science
-                perspective.
-              </p>
-            </div>
-            <Link
-              href="/publications"
-              className="inline-flex items-center gap-2 bg-red-600 text-white font-raleway font-semibold px-8 py-4 rounded text-lg hover:bg-red-700 transition-colors duration-300"
-            >
-              Research
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <HeroSection />
 
       {/* Mission Section */}
       <section className="bg-white py-16 lg:py-24">
@@ -201,7 +149,7 @@ export default async function HomePage() {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={1}
-                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 002 2z"
                               />
                             </svg>
                             <p className="text-sm font-medium">No Image</p>
