@@ -43,7 +43,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     let url: string = "";
 
     for (const p of allPostsAndPages.data) {
-      switch (p._type) {
+      // Use type assertion to handle the dynamic _type field
+      const contentType = p._type as string;
+
+      switch (contentType) {
         case "page":
           priority = 0.8;
           changeFrequency = "monthly";
@@ -59,6 +62,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency = "weekly";
           url = `${domain}/events/${p.slug}`;
           break;
+        default:
+          // Skip unknown content types
+          continue;
       }
       sitemap.push({
         lastModified: p._updatedAt || new Date(),

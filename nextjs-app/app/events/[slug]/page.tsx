@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlForImage } from "@/sanity/lib/utils";
 import CustomPortableText from "@/app/components/PortableText";
+import { client } from "@/sanity/lib/client";
 
 // Query for individual event
 const eventQuery = `
@@ -314,9 +315,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const { data: events } = await sanityFetch({
-    query: eventSlugsQuery,
-  });
+  const events = await client.fetch(eventSlugsQuery);
 
   return (
     events?.map((event: any) => ({
