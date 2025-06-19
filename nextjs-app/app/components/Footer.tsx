@@ -77,6 +77,13 @@ export default function Footer() {
                     People
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/events"
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    Events
+                  </Link>
               </ul>
             </div>
 
