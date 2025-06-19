@@ -10,7 +10,8 @@ export default function NotFound() {
             Event Not Found
           </h2>
           <p className="text-gray-600 mb-8 max-w-md mx-auto">
-            The event you're looking for doesn't exist or may have been moved.
+            The event you&apos;re looking for doesn&apos;t exist or may have
+            been moved.
           </p>
         </div>
 
