@@ -29,7 +29,9 @@ export default function HeroSection({
   return (
     <section
       className="relative w-full"
-      style={{ height: "50vh", minHeight: "300px" }}
+      style={{
+        height: isMobile ? "200px" : "50vh",
+      }}
     >
       <div className="absolute inset-0 w-full h-full">
         <Image

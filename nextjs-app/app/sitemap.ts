@@ -22,8 +22,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "monthly",
   });
 
+  sitemap.push({
+    url: `${domain}/events`,
+    lastModified: new Date(),
+    priority: 0.9,
+    changeFrequency: "weekly",
+  });
+
   if (allPostsAndPages != null && allPostsAndPages.data.length != 0) {
-    let priority: number;
+    let priority: number = 0.5;
     let changeFrequency:
       | "monthly"
       | "always"
@@ -32,8 +39,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       | "weekly"
       | "yearly"
       | "never"
-      | undefined;
-    let url: string;
+      | undefined = "monthly";
+    let url: string = "";
 
     for (const p of allPostsAndPages.data) {
       switch (p._type) {
@@ -46,6 +53,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority = 0.5;
           changeFrequency = "never";
           url = `${domain}/posts/${p.slug}`;
+          break;
+        case "event":
+          priority = 0.6;
+          changeFrequency = "weekly";
+          url = `${domain}/events/${p.slug}`;
           break;
       }
       sitemap.push({

@@ -6,50 +6,63 @@ import Image from "next/image";
 import { urlForImage } from "@/sanity/lib/utils";
 import ContentFilter from "@/components/ContentFilter";
 
-interface ResearchGridProps {
-  allResearch: any[];
+interface ProjectsGridProps {
+  allProjects: any[];
   categories: string[];
   years: number[];
 }
 
-export default function ResearchGrid({
-  allResearch,
+export default function ProjectsGrid({
+  allProjects,
   categories,
   years,
-}: ResearchGridProps) {
-  const [filteredResearch, setFilteredResearch] = useState<any[]>(allResearch);
+}: ProjectsGridProps) {
+  const [filteredProjects, setFilteredProjects] = useState<any[]>(allProjects);
 
-  // Update filtered research when allResearch changes
+  // Update filtered projects when allProjects changes
   useEffect(() => {
-    setFilteredResearch(allResearch);
-  }, [allResearch]);
+    setFilteredProjects(allProjects);
+  }, [allProjects]);
 
   // Filter function
   const handleFilterChange = useCallback(
     (filters: { category: string; year: string }) => {
-      let filtered = [...allResearch];
+      let filtered = [...allProjects];
 
       // Filter by category
       if (filters.category !== "all") {
-        filtered = filtered.filter((research) =>
-          research.categories?.includes(filters.category)
+        filtered = filtered.filter((project) =>
+          project.categories?.includes(filters.category)
         );
       }
 
       // Filter by year
       if (filters.year !== "all") {
         const targetYear = parseInt(filters.year);
-        filtered = filtered.filter((research) => {
-          if (!research.publicationDate) return false;
-          const researchYear = new Date(research.publicationDate).getFullYear();
-          return researchYear === targetYear;
+        filtered = filtered.filter((project) => {
+          if (!project.publicationDate) return false;
+          const projectYear = new Date(project.publicationDate).getFullYear();
+          return projectYear === targetYear;
         });
       }
 
-      setFilteredResearch(filtered);
+      setFilteredProjects(filtered);
     },
-    [allResearch]
+    [allProjects]
   );
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "active":
+        return "bg-green-100 text-green-800";
+      case "completed":
+        return "bg-red-100 text-red-800";
+      case "upcoming":
+        return "bg-yellow-100 text-yellow-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
 
   return (
     <>
@@ -60,24 +73,21 @@ export default function ResearchGrid({
         onFilterChange={handleFilterChange}
       />
 
-      {/* Research Grid Section */}
+      {/* Projects Grid Section */}
       <section className="bg-gray-50">
         <div className="">
-          {filteredResearch && filteredResearch.length > 0 ? (
+          {filteredProjects && filteredProjects.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
-              {filteredResearch.map((research: any) => {
-                const imageUrl = research.thumbnail?.asset?.url || null;
+              {filteredProjects.map((project: any) => {
+                const imageUrl = project.thumbnail?.asset?.url || null;
 
                 // Also try urlForImage approach
-                const urlForImageResult = research.thumbnail?.asset
-                  ? urlForImage(research.thumbnail)
-                      ?.width(600)
-                      .height(400)
-                      .url()
+                const urlForImageResult = project.thumbnail?.asset
+                  ? urlForImage(project.thumbnail)?.width(600).height(400).url()
                   : null;
 
-                const publicationYear = research.publicationDate
-                  ? new Date(research.publicationDate).getFullYear()
+                const publicationYear = project.publicationDate
+                  ? new Date(project.publicationDate).getFullYear()
                   : null;
 
                 // Use direct URL first, fallback to urlForImage
@@ -85,8 +95,10 @@ export default function ResearchGrid({
 
                 return (
                   <Link
-                    key={research._id}
-                    href={`/research/${research.slug?.current}`}
+                    key={project._id}
+                    href={project.url || `/projects/${project.slug?.current}`}
+                    target={project.url ? "_blank" : undefined}
+                    rel={project.url ? "noopener noreferrer" : undefined}
                     className="group block bg-white overflow-hidden transition-all duration-300"
                   >
                     {/* Always show image container */}
@@ -95,7 +107,7 @@ export default function ResearchGrid({
                         <>
                           <Image
                             src={finalImageUrl}
-                            alt={research.thumbnail?.alt || research.title}
+                            alt={project.thumbnail?.alt || project.title}
                             width={600}
                             height={400}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -114,7 +126,7 @@ export default function ResearchGrid({
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={1}
-                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 002 2z"
                               />
                             </svg>
                             <p className="text-sm font-medium">No Image</p>
@@ -124,9 +136,18 @@ export default function ResearchGrid({
                     </div>
 
                     <div className="p-6">
-                      <h3 className="font-raleway font-bold text-xl mb-3 text-gray-900 group-hover:text-red-700 transition-colors leading-tight">
-                        {research.title}
-                      </h3>
+                      <div className="flex items-start justify-between mb-3">
+                        <h3 className="font-raleway font-bold text-xl text-gray-900 group-hover:text-red-700 transition-colors leading-tight flex-1">
+                          {project.title}
+                        </h3>
+                        {project.status && (
+                          <span
+                            className={`px-2 py-1 text-xs font-medium rounded-full capitalize ml-3 ${getStatusColor(project.status)}`}
+                          >
+                            {project.status}
+                          </span>
+                        )}
+                      </div>
                       <div className="flex items-center justify-between mb-3">
                         {publicationYear && (
                           <span className="text-sm font-medium text-red-600 bg-red-50 px-3 py-1 rounded-full">
@@ -134,9 +155,9 @@ export default function ResearchGrid({
                           </span>
                         )}
                       </div>
-                      {research.summary && (
+                      {project.description && (
                         <p className="text-gray-600 text-sm line-clamp-3 leading-relaxed">
-                          {research.summary}
+                          {project.description}
                         </p>
                       )}
                     </div>
@@ -147,7 +168,7 @@ export default function ResearchGrid({
           ) : (
             <div className="text-center py-12">
               <p className="text-gray-600 text-lg">
-                No research found matching the selected filters.
+                No projects found matching the selected filters.
               </p>
             </div>
           )}

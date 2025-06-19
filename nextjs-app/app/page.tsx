@@ -41,7 +41,7 @@ export default async function HomePage() {
       <HeroSection />
 
       {/* Mission Section */}
-      <section className="bg-white py-16 lg:py-24">
+      <section id="mission" className="bg-white py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div></div> {/* Empty left column on desktop */}

@@ -30,13 +30,13 @@ export default function Header() {
         <div className="container py-4 sm:px-6">
           <div className="flex items-center justify-between gap-5">
             <Link className="flex items-center gap-3" href="/">
-              <div className="h-22 w-auto">
+              <div className="h-16 sm:h-22 w-auto">
                 <Image
                   src="/cix-logo.svg"
                   alt="CCI Lab Logo"
                   width={195}
                   height={80}
-                  className={`h-22 w-auto ${isHomepage ? "" : "brightness-100 invert"}`}
+                  className={`h-16 sm:h-22 w-auto ${isHomepage ? "" : "brightness-100 invert"}`}
                   priority
                 />
               </div>
@@ -83,6 +83,18 @@ export default function Header() {
                     }`}
                   >
                     Projects
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/events"
+                    className={`transition-colors duration-200 ${
+                      isHomepage
+                        ? "text-white/90 hover:text-white"
+                        : "text-gray-700 hover:text-red-700"
+                    }`}
+                  >
+                    Events
                   </Link>
                 </li>
                 <li>
@@ -184,6 +196,15 @@ export default function Header() {
                   className="block text-2xl font-medium text-white hover:text-red-200 transition-colors duration-200"
                 >
                   Projects
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/events"
+                  onClick={closeMobileMenu}
+                  className="block text-2xl font-medium text-white hover:text-red-200 transition-colors duration-200"
+                >
+                  Events
                 </Link>
               </li>
               <li>

@@ -4,6 +4,7 @@ import {publication} from './documents/publication'
 import {project} from './documents/project'
 import {page} from './documents/page'
 import {post} from './documents/post'
+import {event} from './documents/event'
 import {callToAction} from './objects/callToAction'
 import {infoSection} from './objects/infoSection'
 import {settings} from './singletons/settings'
@@ -22,6 +23,7 @@ export const schemaTypes = [
   research,
   publication,
   project,
+  event,
   // Objects
   blockContent,
   infoSection,

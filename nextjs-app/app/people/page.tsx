@@ -91,7 +91,7 @@ export default async function PeoplePage() {
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <h1 className="font-raleway font-bold text-4xl sm:text-5xl text-gray-900 mb-12">
-            Our People
+            People
           </h1>
           <Suspense
             fallback={
